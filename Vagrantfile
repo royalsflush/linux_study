@@ -6,22 +6,28 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
+  config.vm.define "centos" do |centos|
+    centos.vm.box = "centos/stream10"
+    centos.vm.box_version = "20250807.1"
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "centos/stream10"
-  config.vm.box_version = "20250807.1"
-
-  config.vm.provider "qemu" do |qe|
-    qe.qemu_dir = "/usr/local/share/qemu"
-    qe.arch = "x86_64"
-    qe.machine = "q35"
-    qe.cpu = "max"
-    qe.net_device = "virtio-net-pci"
+    centos.vm.provider "qemu" do |qe|
+      qe.qemu_dir = "/usr/local/share/qemu"
+      qe.arch = "x86_64"
+      qe.machine = "q35"
+      qe.cpu = "max"
+      qe.net_device = "virtio-net-pci"
+    end
   end
+
+  # Using 22.04 LTS, 
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/jammy64"
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
